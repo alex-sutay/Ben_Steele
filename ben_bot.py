@@ -30,7 +30,7 @@ async def on_message(message):
     # 1 in 3 chance of actually responding so things don't get out of hand
     ran = random.randint(0, 1)
     if ran == 1:
-        print("Passed roll."+str(ran))
+        print("Passed roll. "+str(ran))
         # If the bot sent the message, do nothing
         if message.author == client.user:
             return
@@ -65,7 +65,7 @@ async def on_message(message):
                 await message.channel.send("Whoa, I didn't like that. You gave me the error:")
                 await message.channel.send(str(e))
     else:
-        print("Failed roll." + str(ran))
+        print("Failed roll. " + str(ran))
 
 
 @client.event
