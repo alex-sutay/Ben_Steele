@@ -2,32 +2,40 @@
 file: ben_bot.py
 author: Alex Sutay
 """
+# Discord API.
 import discord
+# Using random.randint()
 import random
+# Config file, contains the token for the bot as a variable.
+# TODO: Implement a proper CFG file.
 import config
 
+# Launch the default discord client.
 client = discord.Client()
-
 
 @client.event
 async def on_message(message):
     # Be shy about being yelled at
     if "BEN" in message.content:
+        messages = { 
+                     0:"It's not my fault I'm programmed this way...",
+                     1:"I'm trying, I really am!",
+                     2:"Please don't get mad, I'll try to do better",
+                     3:"I'm sorry.",
+                     4:"*flinches*",
+                     5:"Please don't yell at me, I'm doing my best..."
+                    }
+        # Generate the random message.
         x = random.randint(0, 5)
-        if x == 0:
-            await message.channel.send("It's not my fault I'm programmed this way...")
-        elif x == 1:
-            await message.channel.send("I'm trying, I really am!")
-        elif x == 2:
-            await message.channel.send("Please don't get mad, I'll try to do better")
-        elif x == 3:
-            await message.channel.send("I'm sorry.")
-        elif x == 4:
-            await message.channel.send("*flinches*")
-        else:
-            await message.channel.send("Please don't yell at me, I'm doing my best...")
+        # Send it to the channel.
+        await message.channel.send(messages[x])
+    
+    # There is a 4% chance of saying "Ok Zoomer"
+    if random.randint(0, 25) == 4 or (str(message.author) == "Crimson#0884" and random.randint(0, 8) == 2)\
+            or "ok boomer" in message.content.lower():
+        await message.channel.send("Ok Zoomer")
 
-    # 1 in 3 chance of actually responding so things don't get out of hand
+    # 1 in 2 chance of actually responding so things don't get out of hand
     ran = random.randint(0, 1)
     if ran == 1:
         print("Passed roll. "+str(ran))
@@ -37,15 +45,11 @@ async def on_message(message):
         else:
             # create a try function so that it sends a message to discord on an error
             try:
+                # TODO: Split these functions off into command functions.
                 # If someone mentions java, say "Java good" and react with a cup of java
                 if "java" in message.content.lower():
                     await message.channel.send("Java good")
                     await message.add_reaction("☕")
-
-                # There is a 4% chance of saying "Ok Zoomer"
-                if random.randint(0, 25) == 4 or (str(message.author) == "Crimson#0884" and random.randint(0, 8) == 2)\
-                        or "ok boomer" in message.content.lower():
-                    await message.channel.send("Ok Zoomer")
 
                 # If a message starts with "
                 # TODO change this so it cuts off by sentence and can find it anywhere
@@ -62,6 +66,7 @@ async def on_message(message):
                             await message.channel.send('"' + word[:-2] + " 'er\"? I 'ardly know 'er!")
 
             except Exception as e:
+                # Error catching for the bot. Send a message with the error log if it breaks.
                 await message.channel.send("Whoa, I didn't like that. You gave me the error:")
                 await message.channel.send(str(e))
     else:
@@ -70,9 +75,6 @@ async def on_message(message):
 
 @client.event
 async def on_ready():
-    print("logged on as")
-    print(client.user.name)
-    print(client.user.id)
-
+    print(f"logged on as: {client.user.name}\ntoken: {client.user.id}")
 
 client.run(config.TOKEN)
