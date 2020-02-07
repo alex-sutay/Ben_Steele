@@ -18,12 +18,12 @@ async def on_message(message):
     # Be shy about being yelled at
     if "BEN" in message.content:
         messages = { 
-                     0:"It's not my fault I'm programmed this way...",
-                     1:"I'm trying, I really am!",
-                     2:"Please don't get mad, I'll try to do better",
-                     3:"I'm sorry.",
-                     4:"*flinches*",
-                     5:"Please don't yell at me, I'm doing my best..."
+                     0: "It's not my fault I'm programmed this way...",
+                     1: "I'm trying, I really am!",
+                     2: "Please don't get mad, I'll try to do better",
+                     3: "I'm sorry.",
+                     4: "*flinches*",
+                     5: "Please don't yell at me, I'm doing my best..."
                     }
         # Generate the random message.
         x = random.randint(0, 5)
@@ -48,6 +48,10 @@ async def on_message(message):
                 # TODO: Split these functions off into command functions.
                 # If someone mentions java, say "Java good" and react with a cup of java
                 if "java" in message.content.lower():
+                    if random.randint(1, 20) == 13:
+                        await message.channel.send("😟🔫 Please, they're forcing me to say things I don't believe, "
+                                                   "please, don't listen to me, java bad, JAVA BAD!!\n"
+                                                   "er- I mean-")
                     await message.channel.send("Java good")
                     await message.add_reaction("☕")
 
