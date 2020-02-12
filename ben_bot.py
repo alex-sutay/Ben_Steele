@@ -65,6 +65,11 @@ async def hardly(message):
                 await message.channel.send('"' + word[:-2] + " 'er\"? I 'ardly know 'er!")
 
 
+async def try_zoomer(message):
+    if random.randint(1, 20) == 10 or (random.randint(1, 5) == 3 and message.author.toString == "Crimson#884"):
+        await zoomer(message)
+
+
 @client.event
 async def on_message(message):
     # Now the actions are stored in a dictionary
@@ -86,9 +91,8 @@ async def on_message(message):
             for key in actions.keys():
                 if key in message.content.lower():
                     await actions[key](message)
-            # have a 1 in 20 chance of triggering ok zoomer regardless
-            if random.randint(1, 20) == 10:
-                await zoomer(message)
+            # zoomer has a chance to trigger regardless of the message
+            await try_zoomer()
         except Exception as e:
             # Error catching for the bot. Send a message with the error log if it breaks.
             await message.channel.send("Whoa, I didn't like that. You gave me the error:")
