@@ -16,19 +16,20 @@ client = discord.Client()
 
 async def shy(message):
     print("Trigger: Shy")
-    # Be shy about being yelled at
-    messages = {
-        0: "It's not my fault I'm programmed this way...",
-        1: "I'm trying, I really am!",
-        2: "Please don't get mad, I'll try to do better",
-        3: "I'm sorry.",
-        4: "*flinches*",
-        5: "Please don't yell at me, I'm doing my best..."
-    }
-    # Generate the random message.
-    x = random.randint(0, 5)
-    # Send it to the channel.
-    await message.channel.send(messages[x])
+    if "BEN" in message.content:
+        # Be shy about being yelled at
+        messages = {
+            0: "It's not my fault I'm programmed this way...",
+            1: "I'm trying, I really am!",
+            2: "Please don't get mad, I'll try to do better",
+            3: "I'm sorry.",
+            4: "*flinches*",
+            5: "Please don't yell at me, I'm doing my best..."
+        }
+        # Generate the random message.
+        x = random.randint(0, 5)
+        # Send it to the channel.
+        await message.channel.send(messages[x])
 
 
 async def zoomer(message):
@@ -54,6 +55,7 @@ async def dadjoke(message):
 
 
 async def hardly(message):
+    print("Trigger: hardly")
     words = message.content.split(" ")
     for word in words:
         if len(word) > 3:
@@ -67,10 +69,10 @@ async def hardly(message):
 async def on_message(message):
     # Now the actions are stored in a dictionary
     actions = {
-        "BEN": shy,
-        "Ok Boomer": zoomer,
+        "ben": shy,
+        "ok boomer": zoomer,
         "java": java,
-        "I am": dadjoke,
+        "i am": dadjoke,
         "er": hardly,
     }
 
@@ -98,4 +100,6 @@ async def on_ready():
     print(f"logged on as: {client.user.name}\ntoken: {client.user.id}")
 
 
-client.run(config.TOKEN)
+if __name__ == "__main__":
+    print("logging in...")
+    client.run(config.TOKEN)
