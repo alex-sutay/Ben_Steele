@@ -74,11 +74,9 @@ async def no_sad(message):
     # Fetch the corgi and SEND IT!
     await message.channel.send(file=discord.File(dog.random_image('corgi')))
 
-    
-
 
 async def try_zoomer(message):
-    if random.randint(1, 20) == 10 or (random.randint(1, 5) == 3 and message.author.toString == "Crimson#0884"):
+    if random.randint(1, 10) == 10 or (random.randint(1, 5) == 3 and message.author.toString == "Crimson#0884"):
         await zoomer(message)
 
 
@@ -91,7 +89,7 @@ async def on_message(message):
         {"java"}: java,
         {"i am"}: dadjoke,
         {"er"}: hardly,
-        {":(", "I'm sad", "This is so sad."}: so_sad
+        {":(", "I'm sad", "This is so sad."}: no_sad
     }
 
     # If the bot sent the message, do nothing
