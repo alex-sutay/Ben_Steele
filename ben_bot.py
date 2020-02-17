@@ -9,6 +9,8 @@ import random
 # Config file, contains the token for the bot as a variable.
 # TODO: Implement a proper CFG file.
 import config
+# Use DOG API python wrapper: https://github.com/joebeachjoebeach/dog-api
+import dog_api as dog
 
 # Launch the default discord client.
 client = discord.Client()
@@ -65,8 +67,18 @@ async def hardly(message):
                 await message.channel.send('"' + word[:-2] + " 'er\"? I 'ardly know 'er!")
 
 
+async def no_sad(message):
+    # Sends a corgi to people who are sad.
+    await message.channel.send("It's okay, don't be sad...\nHave a corgi...")
+
+    # Fetch the corgi and SEND IT!
+    await message.channel.send(file=discord.File(dog.random_image('corgi')))
+
+    
+
+
 async def try_zoomer(message):
-    if random.randint(1, 20) == 10 or (random.randint(1, 5) == 3 and message.author.toString == "Crimson#884"):
+    if random.randint(1, 20) == 10 or (random.randint(1, 5) == 3 and message.author.toString == "Crimson#0884"):
         await zoomer(message)
 
 
@@ -74,11 +86,12 @@ async def try_zoomer(message):
 async def on_message(message):
     # Now the actions are stored in a dictionary
     actions = {
-        "ben": shy,
-        "ok boomer": zoomer,
-        "java": java,
-        "i am": dadjoke,
-        "er": hardly,
+        {"ben"}: shy,
+        {"ok boomer"}: zoomer,
+        {"java"}: java,
+        {"i am"}: dadjoke,
+        {"er"}: hardly,
+        {":(", "I'm sad", "This is so sad."}: so_sad
     }
 
     # If the bot sent the message, do nothing
@@ -88,14 +101,15 @@ async def on_message(message):
         # create a try function so that it sends a message to discord on an error
         try:
             # check the dictionary for any actions to trigger
-            for key in actions.keys():
-                if key in message.content.lower():
-                    await actions[key](message)
+            for keychain in actions.keys():
+                for key in keychain:
+                    if key in message.content.lower():
+                        await actions[key](message)
             # zoomer has a chance to trigger regardless of the message
             await try_zoomer()
         except Exception as e:
             # Error catching for the bot. Send a message with the error log if it breaks.
-            await message.channel.send("Whoa, I didn't like that. You gave me the error:")
+            await message.channel.send("@459339891495403540, I trusted you and you let me down.\nI guess you wont care about:")
             await message.channel.send(str(e))
 
 
